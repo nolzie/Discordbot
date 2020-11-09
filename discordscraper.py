@@ -1,13 +1,17 @@
 from bs4 import  BeautifulSoup
 import urllib3
 
-quote_page = "https://lichess.org/@/nolzie123"
-http = urllib3.PoolManager()
 
-response = http.request('GET', quote_page)
-soup = BeautifulSoup(response.data)
+def usrRating(id):
+    quote_page = "https://lichess.org/@/"+id
+    http = urllib3.PoolManager()
+    response = http.request('GET', quote_page)
+    soup = BeautifulSoup(response.data, "html.parser")
+    rating_box = soup.find("a", {"data-icon":")"})
+    ratingshtml = rating_box.text.strip()
+    rating = ratingshtml[5:9]
+    print(rating)
 
-rating_box = soup.find("div", attrs={"class": "side sub-ratings"})
-ratings = rating_box.text.strip()
 
-print(ratings)
+usrRating('Nolzie123')
+
